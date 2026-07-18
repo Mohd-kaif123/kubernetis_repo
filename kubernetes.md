@@ -71,3 +71,4 @@ A Kubernetes Cluster consist of:
 
 ![Image 1](image/Kubernetes-1.png)
 ![image 2](image/kubernetes-2.png)
+
