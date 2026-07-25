@@ -37,7 +37,7 @@ miniube start
 minikube status
 kubectl cluster-info
 kubectl get nodes # check Connected Nodes
-kubectl dashboard --url # access Minikube IP
+minikube dashboard --url # access Minikube IP, fir jo link milega usko chrome me dalne se kubernetes ka dashboard open ho jaega.
 
 ## if kubectl is not working re-configure it
 curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
@@ -48,6 +48,15 @@ kubectl version --client
 
 # Create a POD
 kubectl run my-pod --image=nginx --port=80
+
+> kubectl run:-
+  - ek imperative command hai — matlab aap seedha command line se ek resource (yaha Pod) bana rahe ho, declarative YAML file likhe bina. Quick testing ya debugging ke liye bahut kaam aata hai.
+> --image=nginx:-
+  - Ye batata hai container kaunsi Docker image use karega — yaha nginx (Docker Hub se automatically pull hogi, kyunki koi registry specify nahi ki, to default Docker Hub maana jayega)
+  - Iske bina command fail hoga — image required field hai kyunki container ko run karne ke liye pata hona chahiye kaunsa software chalana hai
+> --port=80
+  - Ye batata hai container kis port par listen karega — nginx by default port 80 par HTTP serve karta hai
+
 kubectl get pods
 kubectl describe pod my-pod
 
@@ -55,10 +64,13 @@ kubectl describe pod my-pod
 - Expose an application running in your cluster behind a single outward facing endpoint, even when the workload is split accross multiple backends
 
 kubectl expose pod my-pod --type=NodePort --port=80
+> Nodeport :-
+  ek Service banata hai jo my-pod ko bahar se accessible banata hai. NodePort type ki wajah se Kubernetes har Node par ek random port (30000-32767 range se) khol deta hai, jisse NodeIP:NodePort par jaake Pod tak pahunch sakte ho. --port=80 S
 
-kubectl get svc
+kubectl get svc   # ye cmd sare service ki list dikhata hai
 
 minikbe service my-pod
+- Ye Minikube ka helper command hai jo kisi Service ko (jo NodePort type ka ho) automatically aapke default browser me khol deta hai — bina manually NodeIP aur Port nikale.
 
 # Create Pod and Service uing YML
 1. create my-pod.yml
